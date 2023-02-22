@@ -1,5 +1,5 @@
 <template>
-  <footer class="flex justify-between items-center  py-4 px-[7%]">
+  <header class="flex justify-between items-center  py-4 px-[7%]">
     <div class="text-3xl font-bold text-amber-600 flex justify-center items-center gap-x-3">
       <i class="fa-solid fa-bag-shopping"></i>
       X Shopping
@@ -33,31 +33,44 @@
         <i class="px-1 fa-solid fa-user"></i>
         <div class="cursor-pointer">Account</div>
       </div>
-      <div class="flex justify-center items-center gap-x-2 hover:bg-slate-100 text-amber-600 p-2 rounded-lg">
+      <div @click="cartBtnClick" class="cursor-pointer flex justify-center items-center gap-x-2 hover:bg-slate-100 text-amber-600 p-2 rounded-lg">
         <i class="px-1 fa-brands fa-shopify"></i>
-        <button @click="cartBtnClick" class=" cursor-pointer ">Cart
-          <div v-if="cartBtn" class="absolute right-28 top-16 w-48  h-60 bg-slate-100">
+        <button  class=" cursor-pointer ">Cart
+          <div v-if="cartBtn" class="absolute right-28 top-16 w-80  bg-slate-100">
          <nav>
           <ul>
-            <li v-for="card in cardElements" :key="card.id" class="p-2 border flex justify-between  items-center">
-              <span class="w-[90%] h-full flex items-center">{{ card.todo }}</span>
-              <i @click="deleteHeadphone(card.id)" class="fa-solid fa-trash w-[10%]"></i>
+            <li v-for="card in cardElements" :key="card.id" class="p-2 border flex justify-between  rounded-md z-10  items-center">
+              <div class="w-full h-full  flex justify-between">
+                <div class="">
+                  <span class="mr-2 w-[90%] h-full  ">{{card.todo}} </span>
+                <span class="w-[90%] h-full rounded p-1 bg-amber-600 text-white">{{card.price}} $</span>
+                </div>
+              <i @click="deleteHeadphone(card.id)" class="fa-solid fa-trash w-[10%] "></i>
+              </div>
             </li>
           </ul>
          </nav>
+         <div class="flex justify-start p-2 font-bold">
+            Total Amount :
+            {{ totalPrice }} $
+        </div>
         </div>
       </button>
       </div>
     </div>
-</footer>
+</header>
+<BodyComponent></BodyComponent>
 </template>
 
 <script>
 import { defineComponent,ref } from 'vue'
 import axios from 'axios'
 import {useAddToCard} from '../store/AddToCard';
-
+import BodyComponent from './BodyComponent.vue';
 export default defineComponent({
+  components:{
+    BodyComponent
+  },
   setup() {
     const AddToCard = useAddToCard();
     return{
@@ -67,7 +80,7 @@ export default defineComponent({
     return{
       todoList: [],
       cardElements:[],
-      cartBtn : ref(true)
+      cartBtn : ref(false)
     }
   },
   methods:{
@@ -86,6 +99,8 @@ export default defineComponent({
               let todo = {
                 id: key,
                 todo: response.data[key].todo,
+                price : response.data[key].price,
+                description : response.data[key].description
               };
               this.cardElements.push(todo)
             }
@@ -93,7 +108,6 @@ export default defineComponent({
           });
     },
     deleteHeadphone(props) {
-
       axios
         .delete(
           "https://adem-quasar-todolist-default-rtdb.firebaseio.com/todos/" +
@@ -107,6 +121,13 @@ export default defineComponent({
           console.log(e);
         });
         this.cartBtn =true;
+    },
+  },
+  computed:{
+    totalPrice(){
+      return (
+        this.cardElements.reduce((total,obj)=>obj.price+total,0)
+      )
     },
   },
     mounted() {

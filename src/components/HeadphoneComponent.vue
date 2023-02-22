@@ -26,21 +26,22 @@
   <div class="mt-16 mb-4">
     <h4 class="font-bold text-amber-600">Headphones For You!</h4>
   </div>
-
-  <div class="flex justify-start  items-center gap-x-6 gap-y-6 w-full flex-wrap  mb-60">
-    <div class="bg-slate-200 box-border rounded-md p-6 w-60" v-for="headphone in store.headphones" :key="headphone.id">
-      <img class="w-60 h-52 bg-cover" :src='headphone.img'>
-      <div class="flex mt-5">
-        <p class="flex flex-col font-bold">{{headphone.title}}
-          <span class="font-normal text-xs">{{headphone.description}}</span>
-        </p>
-        <div class="flex items-center gap-x-10">
-          <button class="p-2 bg-amber-600 rounded-xl text-white" @click="addClick(headphone.title)">Add To Card</button>
-          <span class="text-xl text-red-700 font-bold">{{ headphone.price }}</span>
+  <router-link :to="{name:'CardComponent'}">
+    <div class="flex justify-start  items-center gap-x-6 gap-y-6 w-full flex-wrap  mb-60">
+      <div class="bg-slate-200 box-border rounded-md p-6 w-60" v-for="headphone in store.headphones" :key="headphone.id">
+        <img class="w-60 h-52 bg-cover" :src='headphone.img'>
+        <div class="flex mt-5">
+          <p class="flex flex-col font-bold">{{headphone.title}}
+            <span class="font-normal text-xs">{{headphone.description}}</span>
+          </p>
+          <div class="flex items-center gap-x-10">
+            <button class="p-2 bg-amber-600 rounded-xl text-white" @click="addClick(headphone)">Add To Card</button>
+            <span class="text-xl text-red-700 font-bold">{{ headphone.price }} $</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 
 </section>
 </template>
@@ -55,8 +56,6 @@ import axios from 'axios';
 const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
-
-
 export default defineComponent({
   setup() {
     const store = useAddToCard();
@@ -100,7 +99,7 @@ export default defineComponent({
       axios
         .post(
           "https://adem-quasar-todolist-default-rtdb.firebaseio.com/todos.json",
-           { todo: props }
+           { id: props.id, todo: props.title,  price:props.price , description:props.description }
         )
         .then((response) => {
           alert("Sepete Eklenmiştir...")
@@ -109,7 +108,7 @@ export default defineComponent({
           console.log(e);
         });
     },
-  
+
   }
 })
 </script>
