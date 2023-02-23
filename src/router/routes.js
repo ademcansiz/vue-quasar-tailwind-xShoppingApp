@@ -1,3 +1,4 @@
+import HeadphoneDetailComponent from "../components/HeadphoneDetailComponent.vue";
 import CardComponent from "../components/CardComponent.vue";
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
   },
   {
     path: "/:id",
+    name: "HeadphoneDetailComponent",
+    component: HeadphoneDetailComponent,
+  },
+  {
+    path: "/card",
     name: "CardComponent",
     component: CardComponent,
   },

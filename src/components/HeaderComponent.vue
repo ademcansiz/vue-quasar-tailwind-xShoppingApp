@@ -1,10 +1,11 @@
 <template>
   <header class="flex justify-between items-center  py-4 px-[7%]">
-      <div class="text-3xl font-bold text-amber-600 flex justify-center items-center gap-x-3">
-        <i class="fa-solid fa-bag-shopping"></i>
-        X Shopping
-      </div>
-
+    <router-link  :to="{ path: `/`}">
+      <div @click="onClickLogo " class="text-3xl font-bold text-amber-600 flex justify-center items-center gap-x-3">
+          <i class="fa-solid fa-bag-shopping"></i>
+          X Shopping
+        </div>
+    </router-link>
       <nav class="text-amber-600">
         <ul class="flex justify-center items-center gap-x-4 text-md">
           <li class="hover:text-amber-900 py-4  rounded-md cursor-pointer">Categories
@@ -33,9 +34,9 @@
           <i class="px-1 fa-solid fa-user"></i>
           <div class="cursor-pointer">Account</div>
         </div>
-        <div @click="cartBtnClick" class="cursor-pointer flex justify-center items-center gap-x-2 hover:bg-slate-100 text-amber-600 p-2 rounded-lg">
+        <div @click="cartBtnClick" class="cursor-pointer flex justify-center items-center gap-x-2 hover:bg-slate-100 text-amber-600 p-2 rounded-lg" >
           <i class="px-1 fa-brands fa-shopify"></i>
-          <button  class=" cursor-pointer ">Cart
+          <button class=" cursor-pointer ">Cart
             <div v-if="cartBtn" class="absolute right-28 top-16 w-80  bg-slate-100">
           <nav>
             <ul>
@@ -50,9 +51,10 @@
               </li>
             </ul>
           </nav>
-          <div class="flex justify-start p-2 font-bold">
+          <div class="flex justify-between p-2 font-bold">
               Total Amount :
               {{ totalPrice }} $
+              <!-- <router-link  :to="{ path: `/card`}">Go to Card</router-link> -->
           </div>
           </div>
         </button>
@@ -84,6 +86,13 @@ export default defineComponent({
   methods:{
     cartBtnClick(){
       this.cartBtn = !this.cartBtn
+    },
+    cartBtnTrue(){
+    return  this.cartBtn = true
+    }
+    ,
+    cartBtnFalse(){
+    return  this.cartBtn = false
     }
     ,
     getData(){
