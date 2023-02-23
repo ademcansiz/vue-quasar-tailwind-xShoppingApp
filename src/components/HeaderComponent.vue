@@ -54,7 +54,6 @@
           <div class="flex justify-between p-2 font-bold">
               Total Amount :
               {{ totalPrice }} $
-              <!-- <router-link  :to="{ path: `/card`}">Go to Card</router-link> -->
           </div>
           </div>
         </button>
