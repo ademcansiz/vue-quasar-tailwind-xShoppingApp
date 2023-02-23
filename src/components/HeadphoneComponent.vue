@@ -29,9 +29,9 @@
 
       <div class="flex justify-start  items-center gap-x-6 gap-y-6 w-full flex-wrap  mb-60">
         <div class="bg-slate-200 box-border rounded-md p-6 w-60" v-for="headphone in store.headphones" :key="headphone.id">
-          <router-link :to="{name:'CardComponent'}">
-            <img class="w-60 h-52 bg-cover" :src='headphone.img'>
-          </router-link>
+            <router-link  :to="{ path: `/${headphone.id}`}" replace>
+              <img class="w-60 h-52 bg-cover" :src='headphone.img'>
+            </router-link>
           <div class="flex mt-5">
             <p class="flex flex-col font-bold">{{headphone.title}}
               <span class="font-normal text-xs">{{headphone.description}}</span>
@@ -43,19 +43,13 @@
           </div>
         </div>
       </div>
-      
+
 </section>
 </template>
 <script>
 import { defineComponent ,createApp} from 'vue'
 import {useAddToCard} from '../store/AddToCard';
-import App from 'src/App.vue'
-import {createPinia} from 'pinia'
 import axios from 'axios';
-
-const pinia = createPinia()
-const app = createApp(App)
-app.use(pinia)
 
 export default defineComponent({
   setup() {
@@ -66,6 +60,7 @@ export default defineComponent({
   },
   methods:{
     addClick(props){
+      this.store.addHeadphone(props)
       axios
         .post(
           "https://adem-quasar-todolist-default-rtdb.firebaseio.com/todos.json",

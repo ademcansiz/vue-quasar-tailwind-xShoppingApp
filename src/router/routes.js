@@ -1,5 +1,4 @@
 import CardComponent from "../components/CardComponent.vue";
-
 const routes = [
   {
     path: "/",
@@ -12,7 +11,7 @@ const routes = [
     ],
   },
   {
-    path: "/card",
+    path: "/:id",
     name: "CardComponent",
     component: CardComponent,
   },
