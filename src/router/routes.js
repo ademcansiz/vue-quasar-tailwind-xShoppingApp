@@ -1,6 +1,4 @@
-import BodyComponent from "../components/BodyComponent.vue";
 import CardComponent from "../components/CardComponent.vue";
-import HeaderComponent from "../components/HeaderComponent.vue";
 
 const routes = [
   {
